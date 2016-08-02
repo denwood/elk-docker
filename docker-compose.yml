@@ -1,0 +1,57 @@
+version: '2'
+services:
+#####################################################################################################
+  elasticsearch_1:
+    image: denwood/elasticsearch-kopf-hq
+    restart: always
+    command: elasticsearch
+    ports:
+    - "9201:9200"
+    - "9301:9300"
+    volumes:
+    - /home/Docker/elasticsearch/node1/config:/usr/share/elasticsearch/config
+    - /home/Docker/elasticsearch/node1/data:/usr/share/elasticsearch/data
+    - /home/Docker/elasticsearch/node1/log:/usr/share/elasticsearch/logs
+    container_name: elastic_1
+    expose:
+      - "9201"
+    environment:
+    - LOCALIP=192.168.0.9
+  #####################################################################################################
+
+  elasticsearch_2:
+    image: denwood/elasticsearch-kopf-hq
+    restart: alaways
+    command: elasticsearch
+    ports:
+    - "9202:9200"
+    - "9302:9300"
+    volumes:
+    - /home/Docker/elasticsearch/node2/config:/usr/share/elasticsearch/config
+    - /home/Docker/elasticsearch/node2/data:/usr/share/elasticsearch/data
+    - /home/Docker/elasticsearch/node2/log:/usr/share/elasticsearch/logs/
+    container_name: elastic_2
+    expose:
+      - "9202"
+    environment:
+    - LOCALIP=192.168.0.9
+  #####################################################################################################
+
+  kibana:
+    image: snuids/kibanawithplugins:latest
+    restart: always
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_URL=http://elastic_1:9200
+    container_name: kibana
+    links:
+      - elasticsearch_1
+  #####################################################################################################
+  curator:
+    image: denwood/cron_curator
+    restart: always
+    container_name: curator
+    links:
+      - elasticsearch_1
+      - elasticsearch_2

@@ -1,0 +1,10 @@
+* * * * * echo "privet"
+
+#EXAMPLE
+
+# LOGSTASH
+#* * * * *  /usr/local/bin/curator --host 10.0.0.74 --port 9201 delete indices --older-than 2 --time-unit days --timestring '%Y.%m.%d' --prefix logstash
+#WINLOGBEAT
+#* * * * * /usr/local/bin/curator --host 10.0.0.74 --port 9201 delete indices --older-than 2 --time-unit days --timestring '%Y.%m.%d' --prefix winlogbeat
+#TOPBEAT
+#* * * * * /usr/local/bin/curator --host 10.0.0.74 --port 9201 delete indices --older-than 3 --time-unit days --timestring '%Y.%m.%d' --prefix topbeat
