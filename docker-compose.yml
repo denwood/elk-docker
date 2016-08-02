@@ -9,9 +9,9 @@ services:
     - "9201:9200"
     - "9301:9300"
     volumes:
-    - /home/Docker/elasticsearch/node1/config:/usr/share/elasticsearch/config
-    - /home/Docker/elasticsearch/node1/data:/usr/share/elasticsearch/data
-    - /home/Docker/elasticsearch/node1/log:/usr/share/elasticsearch/logs
+    - "./elasticsearch/node1/config:/usr/share/elasticsearch/config"
+    - "./elasticsearch/node1/data:/usr/share/elasticsearch/data"
+    - "./elasticsearch/node1/log:/usr/share/elasticsearch/logs"
     container_name: elastic_1
     expose:
       - "9201"
@@ -27,9 +27,9 @@ services:
     - "9202:9200"
     - "9302:9300"
     volumes:
-    - /home/Docker/elasticsearch/node2/config:/usr/share/elasticsearch/config
-    - /home/Docker/elasticsearch/node2/data:/usr/share/elasticsearch/data
-    - /home/Docker/elasticsearch/node2/log:/usr/share/elasticsearch/logs/
+    - "./elasticsearch/node2/config:/usr/share/elasticsearch/config"
+    - "./elasticsearch/node2/data:/usr/share/elasticsearch/data"
+    - "./elasticsearch/node2/log:/usr/share/elasticsearch/logs"
     container_name: elastic_2
     expose:
       - "9202"
@@ -51,6 +51,8 @@ services:
   curator:
     image: denwood/cron_curator
     restart: always
+    volumes:
+      - "./cron_curator:/cron"
     container_name: curator
     links:
       - elasticsearch_1
